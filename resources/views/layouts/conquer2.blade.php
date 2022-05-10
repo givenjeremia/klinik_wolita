@@ -18,7 +18,8 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-<title>@yield('title') | Admin Dashboard</title>
+
+<title>@yield('title', 'Admin Dashboard | BPM Wolita');</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="" name="description"/>
@@ -57,17 +58,19 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
             <a href="/">
+				<p>BPM WOLITA</p>
+				{{-- BPM WOLITA --}}
                 {{-- <img src="{{ asset('conquer2/img/logo.png') }}" alt="logo"/> --}}
                 {{-- <img src="{{ asset('img/given.png') }}" alt="logo"/> --}}
-				<h4>BPM WOLITA</h4>
+				{{-- <h4>BPM WOLITA</h4> --}}
             </a>
         </div>
-        <form class="search-form search-form-header" role="form" action="index.html">
+        {{-- <form class="search-form search-form-header" role="form" action="index.html">
             <div class="input-icon right">
                 <i class="icon-magnifier"></i>
                 <input type="text" class="form-control input-sm" name="query" placeholder="Search...">
             </div>
-        </form>
+        </form> --}}
 		<!-- END LOGO -->
 		<!-- BEGIN RESPONSIVE MENU TOGGLER -->
 		<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -77,7 +80,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- BEGIN TOP NAVIGATION MENU -->
 		<ul class="nav navbar-nav pull-right">
 			<!-- BEGIN NOTIFICATION DROPDOWN -->
-			<li class="dropdown" id="header_notification_bar">
+			{{-- <li class="dropdown" id="header_notification_bar">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 				<i class="icon-bell"></i>
 				<span class="badge badge-success">
@@ -178,21 +181,16 @@ License: You must have a valid license purchased only from themeforest(the above
 						<a href="#">See all notifications <i class="fa fa-angle-right"></i></a>
 					</li>
 				</ul>
-			</li>
+			</li> --}}
 			<!-- END NOTIFICATION DROPDOWN -->
 			<!-- BEGIN INBOX DROPDOWN -->
-			<li class="dropdown" id="header_inbox_bar">
+			{{-- <li class="dropdown" id="header_inbox_bar">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 				<i class="icon-envelope-open"></i>
 				<span class="badge badge-info">
 				5 </span>
 				</a>
 				<ul class="dropdown-menu extended inbox">
-					<li>
-						<p>
-							 You have 12 new messages
-						</p>
-					</li>
 					<li>
 						<ul class="dropdown-menu-list scroller" style="height: 250px;">
 							<li>
@@ -276,10 +274,10 @@ License: You must have a valid license purchased only from themeforest(the above
 						<a href="inbox.html">See all messages <i class="fa fa-angle-right"></i></a>
 					</li>
 				</ul>
-			</li>
+			</li> --}}
 			<!-- END INBOX DROPDOWN -->
 			<!-- BEGIN TODO DROPDOWN -->
-			<li class="dropdown" id="header_task_bar">
+			{{-- <li class="dropdown" id="header_task_bar">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 				<i class="icon-calendar"></i>
 				<span class="badge badge-warning">
@@ -411,7 +409,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<a href="#">See all tasks <i class="fa fa-angle-right"></i></a>
 					</li>
 				</ul>
-			</li>
+			</li> --}}
 			<!-- END TODO DROPDOWN -->
 			<li class="devider">
 				 &nbsp;
@@ -472,14 +470,14 @@ License: You must have a valid license purchased only from themeforest(the above
 					</div>
 					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 				</li>
-				<li class="sidebar-search-wrapper">
+				{{-- <li class="sidebar-search-wrapper">
 					<form class="search-form" role="form" action="index.html" method="get">
 						<div class="input-icon right">
 							<i class="icon-magnifier"></i>
 							<input type="text" class="form-control" name="query" placeholder="Search...">
 						</div>
 					</form>
-				</li>
+				</li> --}}
 				<li class="start active ">
 					<a href="/">
 					<i class="icon-home"></i>
@@ -495,11 +493,11 @@ License: You must have a valid license purchased only from themeforest(the above
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a href="layout_sidebar_fixed.html">
+							<a href="/pasien_baru">
 							<i class="fa fa-plus"></i>Pasien Baru</a>
 						</li>
 						<li>
-							<a href="layout_sidebar_closed.html">
+							<a href="/data_pasien">
 							<i class="fa fa-group"></i>Data Pasien</a>
 						</li>
 					</ul>

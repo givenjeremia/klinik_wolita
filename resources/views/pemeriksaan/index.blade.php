@@ -1,14 +1,14 @@
 @extends('layouts.conquer2')
 
 @section('title')
-Riwayat Persalinan | BPM Wolita
+Riwayat Pemeriksaan | BPM Wolita
 @endsection
 
 @section('content')
 <div class="portlet">
     <div class="portlet-title">
         <div class="caption">
-            <i class="fa fa-globe"></i>Riwayat Persalinan
+            <i class="fa fa-globe"></i>Riwayat Pemeriksaan
         </div>
         <div class="tools">
         </div>
@@ -21,42 +21,31 @@ Riwayat Persalinan | BPM Wolita
                     <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
                          Rendering engine
                     : activate to sort column ascending" style="width: 160px;">
-                        Nama Pasien
+                        NIK
                     </th>
                     <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
                          Rendering engine
                     : activate to sort column ascending" style="width: 160px;">
-                        Nama Suami
+                        Pasien Nama
                     </th>
                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
                          Browser
                     : activate to sort column ascending" style="width: 204px;">
-                         Tanggal Masuk
+                         Tanggal Periksa
                     </th>
                     <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
                          Platform(s)
                     : activate to sort column ascending" style="width: 188px;">
-                        Tanggal Persalinan
+                         Terapi
                     </th><th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
                          Engine version
                     : activate to sort column ascending" style="width: 137px;">
-                        Persalinan Ke-
+                        Kunjungan Ke-
                     </th><th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
                          CSS grade
                     : activate to sort column ascending" style="width: 99px;">
-                         Status Kelahiran
-                    </th>
-                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
-                         CSS grade
-                    : activate to sort column ascending" style="width: 99px;">
-                        Status Pembayaran
-                    </th>
-                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
-                         CSS grade
-                    : activate to sort column ascending" style="width: 99px;">
-                         Action
-                    </th>
-                </tr>
+                         Kontrol Kembali
+                    </th></tr>
                 </thead>
                 <tbody>
                 <tr role="row" class="odd">
@@ -78,12 +67,6 @@ Riwayat Persalinan | BPM Wolita
                     <td>
                         B
                    </td>
-                   <td>
-                    B
-                    </td>
-               <td>
-                B
-           </td>
                 </tr>
                 <tr role="row" class="even">
                     <td class="sorting_1">

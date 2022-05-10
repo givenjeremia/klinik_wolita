@@ -17,10 +17,34 @@ Route::get('/', function () {
     return view('layouts.conquer2');
 });
 
-Route::get('pasien_baru', function () {
-    return view('pasien.baru');
-});
+//Pasien
+// Route::get('pasien_baru', function () {
+//     return view('pasien.baru');
+// });
 
-Route::get('data_pasien', function () {
-    return view('pasien.data');
-});
+// Route::get('data_pasien', function () {
+//     return view('pasien.data');
+// });
+Route::resource('pasien', PasienController::class);
+
+//Pemeriksaan
+// Route::get('pemeriksaan_baru', function () {
+//     return view('pemeriksaan.baru');
+// });
+
+// Route::get('pemeriksaan_data', function () {
+//     return view('pemeriksaan.riwayat');
+// });
+Route::resource('pemeriksaan', PemeriksaanController::class);
+
+//Persalinan
+// Route::get('persalinan_baru', function () {
+//     return view('persalinan.baru');
+// });
+
+// Route::get('persalinan_data', function () {
+//     return view('persalinan.riwayat');
+// });
+Route::resource('persalinan', Persalinan::class);
+
+
