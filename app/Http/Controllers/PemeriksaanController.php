@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Pemeriksaan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PemeriksaanController extends Controller
 {
@@ -15,6 +16,8 @@ class PemeriksaanController extends Controller
     public function index()
     {
         //
+        $pemeriksaan = Pemeriksaan::all();
+        return view('pemeriksaan.index',compact('pemeriksaan'));
     }
 
     /**
@@ -36,6 +39,17 @@ class PemeriksaanController extends Controller
     public function store(Request $request)
     {
         //
+        $user = Auth::user();
+        $pemeriksaan = new Pemeriksaan();
+        $pemeriksaan->tanggal_periksa = $request->get('tanggal_periksa');
+        $pemeriksaan->tanggal_kembali = $request->get('tanggal_kembali');
+        $pemeriksaan->kunjungan_ke = $request->get('kunjungan_ke');
+        $pemeriksaan->keluhan = $request->get('keluhan');
+        $pemeriksaan->terapi = $request->get('terapi');
+        $pemeriksaan->data_pasien_id = $request->get('pasien_id');
+        $pemeriksaan->username = $user->username;
+        $pemeriksaan->save();
+        return redirect()->route('pemeriksaan.index')->with('status', 'Berhasil Tambah Pemerikasaan' );
     }
 
     /**
@@ -70,6 +84,16 @@ class PemeriksaanController extends Controller
     public function update(Request $request, Pemeriksaan $pemeriksaan)
     {
         //
+        $user = Auth::user();
+        $pemeriksaan->tanggal_periksa = $request->get('tanggal_periksa');
+        $pemeriksaan->tanggal_kembali = $request->get('tanggal_kembali');
+        $pemeriksaan->kunjungan_ke = $request->get('kunjungan_ke');
+        $pemeriksaan->keluhan = $request->get('keluhan');
+        $pemeriksaan->terapi = $request->get('terapi');
+        $pemeriksaan->data_pasien_id = $request->get('pasien_id');
+        $pemeriksaan->username = $user->username;
+        $pemeriksaan->save();
+        return redirect()->route('pemeriksaan.index')->with('status', 'Berhasil Ubah Data Pemerikasaan' );
     }
 
     /**
@@ -81,5 +105,15 @@ class PemeriksaanController extends Controller
     public function destroy(Pemeriksaan $pemeriksaan)
     {
         //
+    }
+
+    public function getEditForm(Request $request){
+        $id=$request->get('id');
+        $data= Pemeriksaan::find($id);
+        // dd($data);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('pemeriksaan.getEditForm',compact('data'))->render()
+        ),200);
     }
 }

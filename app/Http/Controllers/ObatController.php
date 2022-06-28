@@ -15,6 +15,8 @@ class ObatController extends Controller
     public function index()
     {
         //
+        $obat = Obat::all();
+        return view('obat.index',compact('obat'));
     }
 
     /**
@@ -36,6 +38,14 @@ class ObatController extends Controller
     public function store(Request $request)
     {
         //
+        $obat = new Obat();
+        $obat->nama_obat = $request->get('nama_obat');
+        $obat->harga = $request->get('harga');
+        $obat->stock = $request->get('stock');
+        $obat->kadaluarsa = $request->get('kadaluarsa');
+        $obat->save();
+        return redirect()->route('obat.index')->with('status', 'Berhasil Tambah '.$request->get('nama').' Obat' );
+
     }
 
     /**
@@ -70,6 +80,13 @@ class ObatController extends Controller
     public function update(Request $request, Obat $obat)
     {
         //
+        $obat->nama_obat = $request->get('nama_obat');
+        $obat->harga = $request->get('harga');
+        $obat->stock = $request->get('stock');
+        $obat->kadaluarsa = $request->get('kadaluarsa');
+        $obat->save();
+        return redirect()->route('obat.index')->with('status', 'Berhasil Ubah '.$request->get('nama').' Obat' );
+
     }
 
     /**
@@ -82,4 +99,15 @@ class ObatController extends Controller
     {
         //
     }
+
+    public function getEditForm(Request $request){
+        $id=$request->get('id');
+        $data= Obat::find($id);
+        // dd($data);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('obat.getEditForm',compact('data'))->render()
+        ),200);
+    }
+
 }

@@ -19,7 +19,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <head>
 <meta charset="utf-8"/>
 
-<title>@yield('title', 'Admin Dashboard | BPM Wolita');</title>
+<title>@yield('title', 'Admin Dashboard | BPM Wolita')</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="" name="description"/>
@@ -46,6 +46,10 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="{{ asset('conquer2/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color"/>
 <link href="{{ asset('conquer2/css/custom.css') }}" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+
 <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 <!-- END HEAD -->
@@ -417,8 +421,10 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!-- BEGIN USER LOGIN DROPDOWN -->
 			<li class="dropdown user">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-				<img alt="" src="{{ asset('conquer2/img/avatar3_small.jpg') }}"/>
-				<span class="username username-hide-on-mobile">Nick </span>
+				{{-- <img alt="" src="{{ asset('conquer2/img/avatar3_small.jpg') }}"/> --}}
+				<span class="username username-hide-on-mobile">
+					{{ Auth::user()->nama }}
+				</span>
 				<i class="fa fa-angle-down"></i>
 				</a>
 				<ul class="dropdown-menu">
@@ -441,7 +447,16 @@ License: You must have a valid license purchased only from themeforest(the above
 					<li class="divider">
 					</li>
 					<li>
-						<a href="login.html"><i class="fa fa-key"></i> Log Out</a>
+						@if(Auth::user())
+						<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+							@csrf
+							<input type="submit" class="btn btn-danger" value="Logout">
+						</form>
+							
+						@else
+							<a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+						@endif
+						{{-- <a href="login.html"><i class="fa fa-key"></i> Log Out</a> --}}
 					</li>
 				</ul>
 			</li>
@@ -481,9 +496,28 @@ License: You must have a valid license purchased only from themeforest(the above
 				<li class="start active ">
 					<a href="/">
 					<i class="icon-home"></i>
-					<span class="title">Dashboard</span>
+					<span class="title">
+						Dashboard
+					</span>
 					<span class="selected"></span>
 					</a>
+				</li>
+				<li >
+					<a href="javascript:;">
+					<i class=" icon-folder"></i>
+					<span class="title">Obat</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						{{-- <li>
+							<a href="Obat/create">
+							<i class="fa fa-plus"></i>Obat Baru</a>
+						</li> --}}
+						<li>
+							<a href="/obat">
+							<i class="fa fa-group"></i>Data Obat</a>
+						</li>
+					</ul>
 				</li>
 				<li >
 					<a href="javascript:;">
@@ -493,11 +527,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a href="/pasien_baru">
-							<i class="fa fa-plus"></i>Pasien Baru</a>
-						</li>
-						<li>
-							<a href="/data_pasien">
+							<a href="/pasien">
 							<i class="fa fa-group"></i>Data Pasien</a>
 						</li>
 					</ul>
@@ -510,14 +540,14 @@ License: You must have a valid license purchased only from themeforest(the above
 					</a>
 					<ul class="sub-menu">
 						<li>
-                            <a href="layout_sidebar_closed.html">
+                            <a href="/persalinan/create">
                                 <i class="fa fa-plus-square"></i>
                                 Persalinan Baru
                             </a>
 						</li>
 						<li>
-                            <a href="layout_sidebar_closed.html">
-                                <i class="fa fa-history"></i>
+                            <a href="/persalinan">
+							<i class="fa fa-history"></i>
                                 Riwayat Persalinan
                             </a>
 						</li>
@@ -531,19 +561,20 @@ License: You must have a valid license purchased only from themeforest(the above
 					</a>
 					<ul class="sub-menu">
 						<li>
-                            <a href="layout_sidebar_closed.html">
+                            <a href="/pemeriksaan/create">
                                 <i class="fa fa-stethoscope"></i>
                                 Pemeriksaan Baru
                             </a>
 						</li>
 						<li>
-                            <a href="layout_sidebar_closed.html">
+                            <a href="/pemeriksaan">
                                 <i class="fa fa-history"></i>
                                 Riwayat Pemeriksaan
                             </a>
 						</li>
 					</ul>
 				</li>
+				@if (Auth::user()->role == "Admin")
                 <li >
 					<a href="javascript:;">
 					<i class=" icon-folder"></i>
@@ -555,12 +586,35 @@ License: You must have a valid license purchased only from themeforest(the above
 							<a href="/kategori_obat">Karyawan Baru</a>
 						</li>
 						<li>
-							<a href="/obat">Data Karyawan</a>
+							<a href="/karyawan">Data Karyawan</a>
+						</li>
+					</ul>
+				</li>
+					
+				@endif
+				<li >
+					<a href="javascript:;">
+					<i class=" icon-folder"></i>
+					<span class="title">Nota</span>
+					<span class="arrow "></span>
+					</a>
+					<ul class="sub-menu">
+						<li>
+							<a href="/notapemeriksaan/create">Pemeriksaan </a>
+						</li>
+						<li>
+							<a href="/notapersalinan/create">Persalinan</a>
+						</li>
+						<li>
+							<a href="/notapemeriksaan">Nota Pemeriksaan</a>
+						</li>
+						<li>
+							<a href="/notapersalinan">Nota Persalinan</a>
 						</li>
 					</ul>
 				</li>
 				<li class="last ">
-					<a href="login.html">
+					<a href="" onclick="document.getElementById('formlogoutdash').submit();">
 					<i class="icon-user"></i>
 					<span class="title">Logout</span>
 					</a>
@@ -573,31 +627,37 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper">
 		<div class="page-content">
+			@if (session('status'))
+				<div class="alert alert-success">
+					{{ session('status') }}
+				</div>
+			@endif
             <div class="portlet">
                 <div class="portlet-title text-bold" >
-                    DASHBOARD
+						
+					Hello, {{ Auth::user()->role }} Welcome To DASHBOARD
                 </div>
+				
                 <div class="portlet-body ">
-                    <a href="/pasien_baru" class="icon-btn bg-info" style="min-width:12%">
+					<a href="#modalObatBaru" data-toggle="modal" class="icon-btn bg-info" style="min-width:12%">
+						<i class="fa fa-plus"></i>
+						<div>
+							Obat Baru
+						</div>
+					</a>
+                    <a href="#modalPasienBaru" data-toggle="modal" class="icon-btn bg-info" style="min-width:12%">
                     <i class="fa fa-plus"></i>
                     <div>
                         Pasien Baru
                     </div>
                     </a>
-
-                    <a href="/data_pasien" class="icon-btn"  style="min-width:12%">
-                    <i class="fa fa-group"></i>
-                    <div>
-                        Data Pasien
-                    </div>
-                    </a>
-                    <a href="#" class="icon-btn" style="min-width:12%">
+                    <a href="#modalPemeriksaanBaru" data-toggle="modal" class="icon-btn" style="min-width:12%">
                     <i class="fa fa-stethoscope"></i>
                     <div>
                         Permeriksaan Baru
                     </div>
                     </a>
-                    <a href="#" class="icon-btn" style="min-width:12%">
+                    <a href="#modalPersalinanBaru" data-toggle="modal" class="icon-btn" style="min-width:12%">
                     <i class="fa fa-plus-square"></i>
                     <div>
                         Persalinan Baru
@@ -615,16 +675,293 @@ License: You must have a valid license purchased only from themeforest(the above
                         Restore Database
                     </div>
                     </a>
-                    <a href="#" class="icon-btn" style="min-width:12%">
+
+                    <a href="" class="icon-btn" onclick="document.getElementById('formlogoutdash').submit();" style="min-width:12%">
                     <i class="fa fa-sign-out"></i>
-                    <div>
-                        Logout
-                    </div>
+                    @if(Auth::user())
+						<form id="formlogoutdash" action="{{ route('logout') }}" method="POST" class="d-none">
+							@csrf
+							<div>
+								{{-- <input type="submit" class="" style="background-color: transparent;" value="Logout"> --}}
+								Logout
+							</div>
+						</form>
+					@endif
                     </a>
                 </div>
             </div>
 			@yield('content')
-		</div>
+			{{-- Modal --}}
+			<div class="modal fade" id="modalPasienBaru" tabindex="-1" role="basic" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					   <h4 class="modal-title">Tambah Pasien Baru</h4>
+					</div>
+					<div class="modal-body">
+					  {{-- Form --}}
+					  <form action="{{ route('pasien.store') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+						@csrf
+						<div class="form-body">
+							<div class="form-group">
+								<label class="control-label col-md-3">NIK</label>
+								<div class="col-md-9">
+									<input type="text" name="NIK" class="form-control" placeholder="NIK">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Nama</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="nama" placeholder="Nama" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Tanggal Lahir</label>
+								<div class="col-md-9">
+                                    <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="tanggal_lahir" placeholder="dd/mm/yyyy" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Jenis Kelamin</label>
+								<div class="col-md-9">
+									<select class="form-control" name="jenis_kelamin" required>
+                                        <option value="0">Pria</option>
+                                        <option value="1">Wanita</option>
+                                    </select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Umur</label>
+								<div class="col-md-9">
+									<input type="number" name="umur" class="form-control" placeholder="Umur">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Perkerjaan</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="perkerjaan" placeholder="Perkerjaan">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Nomor Telepon</label>
+								<div class="col-md-9">
+                                    <input type="tel" class="form-control" name="nomor_telepon" placeholder="Telepon" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Alamat</label>
+								<div class="col-md-9">
+									<input type="text" class="form-control" name="alamat" placeholder="Alamat" required>
+								</div>
+							</div>
+							
+						</div>
+			  
+						<div class="modal-footer">
+						  <button type="submit" class="btn btn-success">Tambah</button>
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						</div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+			<div class="modal fade" id="modalObatBaru" tabindex="-1" role="basic" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					   <h4 class="modal-title">Tambah Obat Baru</h4>
+					</div>
+					<div class="modal-body">
+					  <form action="{{ route('obat.store') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+						@csrf
+						<div class="form-body">
+							<div class="form-group">
+								<label class="control-label col-md-3">Nama</label>
+								<div class="col-md-9">
+									<input type="text" name="nama_obat" class="form-control" placeholder="Nama Obat">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Harga</label>
+								<div class="col-md-9">
+									<input type="number" class="form-control" name="harga" placeholder="Harga" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Stock</label>
+								<div class="col-md-9">
+									<input type="number" name="stock" class="form-control" placeholder="Stock">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Kadaluarsa</label>
+								<div class="col-md-9">
+                                    <input type="date" class="form-control" value="{{ date('Y-m-d') }}" name="kadaluarsa" placeholder="dd/mm/yyyy" required>
+								</div>
+							</div>
+				
+						</div>
+			  
+						<div class="modal-footer">
+						  <button type="submit" class="btn btn-success">Tambah</button>
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						</div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+			<div class="modal fade" id="modalPemeriksaanBaru" tabindex="-1" role="basic" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					   <h4 class="modal-title">Pemeriksaan Baru</h4>
+					</div>
+					<div class="modal-body">
+					  {{-- Form --}}
+					  <form action="{{ route('pemeriksaan.store') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+						@csrf
+						<div class="form-body">
+							<div class="form-group">
+								<label class="control-label col-md-3">Tanggal Periksa</label>
+								<div class="col-md-9">
+                                    <input type="date" name="tanggal_periksa" value="{{ date('Y-m-d') }}" class="form-control" placeholder="dd/mm/yyyy" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Nama Pasien</label>
+								<div class="col-md-9">
+									<select class="form-control" name="pasien_id">
+										@foreach (session()->get("pasien") as $item)
+                                        	<option value="{{ $item->id }}">{{ $item->nama }}</option>	
+										@endforeach
+                                        {{-- <option value="Wanita">Wanita</option> --}}
+                                    </select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Kunjungan Ke</label>
+								<div class="col-md-9">
+                                    <input type="number" name="kunjungan_ke" class="form-control" placeholder="Kunjungan Ke" required>
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Keluhan</label>
+								<div class="col-md-9">
+                                    <input type="text" name="keluhan" class="form-control" placeholder="Keluhan" required>
+									
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Terapi</label>
+								<div class="col-md-9">
+                                    <input type="text" name="terapi" class="form-control" placeholder="terapi" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Tanggal Kembali</label>
+								<div class="col-md-9">
+									<input type="date" name="tanggal_kembali" value="{{ date('Y-m-d') }}" class="form-control" placeholder="dd/mm/yyyy" required>
+								</div>
+							</div>
+				
+						</div>
+			  
+						<div class="modal-footer">
+						  <button type="submit" class="btn btn-success">Tambah</button>
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						</div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			
+			<div class="modal fade" id="modalPersalinanBaru" tabindex="-1" role="basic" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					   <h4 class="modal-title">Persalinan Baru</h4>
+					</div>
+					<div class="modal-body">
+					  {{-- Form --}}
+					  <form action="{{ route('persalinan.store') }}" class="form-horizontal" method="post" enctype="multipart/form-data">
+						@csrf
+						<div class="form-body">
+							<div class="form-group">
+								<label class="control-label col-md-3">Tanggal Masuk</label>
+								<div class="col-md-9">
+                                    <input type="date" name="tanggal_masuk" class="form-control" placeholder="dd/mm/yyyy" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Tanggal Persalinan</label>
+								<div class="col-md-9">
+									<input type="date" name="tanggal_persalinan" class="form-control" placeholder="dd/mm/yyyy" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Nama Pasien</label>
+								<div class="col-md-9">
+									<select class="form-control" name="pasien_id">
+										@foreach (session()->get("pasien") as $item)
+                                        	<option value="{{ $item->id }}">{{ $item->nama }}</option>	
+										@endforeach
+                                        {{-- <option value="Wanita">Wanita</option> --}}
+                                    </select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Persalinan Ke-</label>
+								<div class="col-md-9">
+                                    <input type="number" name="persalinan_ke" class="form-control" placeholder="persalinan_ke" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Nama Suami</label>
+								<div class="col-md-9">
+                                    <input type="text" name="nama_suami" class="form-control" placeholder="Nama Suami" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Perkerjaan Suami</label>
+								<div class="col-md-9">
+                                    <input type="text" name="perkerjaan_suami" class="form-control" placeholder="Perkerjaan Suami" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-3">Dokter/Bidan</label>
+								<div class="col-md-9">
+									<select class="form-control" name="dokter_bidan">
+										@foreach (session()->get("user") as $item)
+                                        	<option value="{{ $item->username }}">{{ $item->nama }} / {{ $item->role }}</option>	
+										@endforeach
+                                        {{-- <option value="Wanita">Wanita</option> --}}
+                                    </select>
+								</div>
+							</div>
+				
+						</div>
+			  
+						<div class="modal-footer">
+						  <button type="submit" class="btn btn-success">Tambah</button>
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+						</div>
+					</form>
+				  </div>
+				</div>
+			  </div>
+			</div>
+
+
 	</div>
 	<!-- END CONTENT -->
 </div>
@@ -697,6 +1034,25 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="{{ asset('conquer2/scripts/app.js') }}" type="text/javascript"></script>
 <script src="{{ asset('conquer2/scripts/index.js') }}" type="text/javascript"></script>
 <script src="{{ asset('conquer2/scripts/tasks.js') }}" type="text/javascript"></script>
+
+
+{{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.1/js/jquery.dataTables.js"></script> 
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"> --}}
+<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/dataTables.buttons.min.js"></script>
+{{-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.bootstrap.min.js"></script>  --}}
+{{-- <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.flash.min.js"></script> --}}
+
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.html5.min.js"></script>
+{{-- <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.4.1/js/buttons.print.min.js"></script>
+
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 jQuery(document).ready(function() {    
@@ -713,6 +1069,7 @@ jQuery(document).ready(function() {
    Tasks.initDashboardWidget();
 });
 </script>
+@yield('js')
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.conquer2');
-});
+
 
 //Pasien
 // Route::get('pasien_baru', function () {
@@ -25,7 +23,7 @@ Route::get('/', function () {
 // Route::get('data_pasien', function () {
 //     return view('pasien.data');
 // });
-Route::resource('pasien', PasienController::class);
+
 
 //Pemeriksaan
 // Route::get('pemeriksaan_baru', function () {
@@ -35,7 +33,7 @@ Route::resource('pasien', PasienController::class);
 // Route::get('pemeriksaan_data', function () {
 //     return view('pemeriksaan.riwayat');
 // });
-Route::resource('pemeriksaan', PemeriksaanController::class);
+
 
 //Persalinan
 // Route::get('persalinan_baru', function () {
@@ -45,6 +43,33 @@ Route::resource('pemeriksaan', PemeriksaanController::class);
 // Route::get('persalinan_data', function () {
 //     return view('persalinan.riwayat');
 // });
-Route::resource('persalinan', Persalinan::class);
 
 
+Route::middleware(['auth'])->group(function(){
+    Route::resource('pasien', PasienController::class);
+    Route::resource('pemeriksaan', PemeriksaanController::class);
+    Route::resource('obat', ObatController::class);
+    Route::resource('persalinan', PersalinanController::class);
+    Route::resource('karyawan', UserController::class);
+    Route::resource('notapemeriksaan', NotaPemeriksaanController::class);
+    Route::resource('notapersalinan', NotaPersalinanController::class);
+
+    
+    Route::post('/pasien/getEditForm','PasienController@getEditForm')->name('pasien.getEditForm');
+    Route::post('/obat/getEditForm','ObatController@getEditForm')->name('obat.getEditForm');
+    Route::post('/persalinan/getEditForm','PersalinanController@getEditForm')->name('persalinan.getEditForm');
+    Route::post('/pemeriksaan/getEditForm','PemeriksaanController@getEditForm')->name('pemeriksaan.getEditForm');
+    
+    Route::get('/addObatToCart/{id}/{keterangan}', 'NotaPemeriksaanController@addObatToCart');
+
+
+
+    Route::resource('/', HomeController::class);
+    // Route::get('/', function () {
+    //     return view('layouts.conquer2');
+    // });
+});
+
+Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');

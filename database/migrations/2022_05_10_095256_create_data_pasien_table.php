@@ -23,7 +23,7 @@ class CreateDataPasienTable extends Migration
             $table->integer('umur');
             $table->string('perkerjaan', 50)->nullable();
             $table->longText('alamat');
-            $table->integer('nomor_telepon');
+            $table->string('nomor_telepon');
 
 
             $table->timestamps();
