@@ -56,7 +56,7 @@ Data Obat | BPM Wolita
                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$item->id}})">
                                         Ubah
                                    </a>
-                                   <form method='POST' action="{{ route('pasien.destroy',$item->id) }}">
+                                   <form method='POST' action="{{ route('obat.destroy',$item->id) }}">
                                         @csrf
                                         @method('DELETE')
                                         <input type="submit" value="Hapus" class='btn btn-danger btn-xs' onclick="if(!confirm('are you sure to delete this record ?')) return false;">

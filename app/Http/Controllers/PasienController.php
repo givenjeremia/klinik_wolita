@@ -109,9 +109,17 @@ class PasienController extends Controller
      * @param  \App\Pasien  $pasien
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pasien $pasien)
+    public function destroy($pasien)
     {
-        //
+        $pasien = Pasien::find($pasien);
+        try{
+            $pasien->delete();
+            return redirect()->route('pasien.index')->with('status','Data Obat berhasil di hapus');
+        }catch (\PDOException $e) {
+            $msg="Data Gagal dihapus. Pastikan data child sudah hilang atau tidak berhubungan";
+
+            return redirect()->route('pasien.index')-with('error',$msg);
+        }
     }
     public function getEditForm(Request $request){
         $id=$request->get('id');

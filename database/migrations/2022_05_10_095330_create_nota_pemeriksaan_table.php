@@ -18,6 +18,9 @@ class CreateNotaPemeriksaanTable extends Migration
 
             $table->date('tanggal');
             $table->integer('biaya_penanganan');
+            $table->integer('total')->length(100)->nullable();;
+
+            $table->softDeletes();;
 
             $table->timestamps();
         });

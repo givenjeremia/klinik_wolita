@@ -191,6 +191,8 @@ Dropdown Menu
   .navbar-nav .open .dropdown-menu > li > a {
      padding: 6px 0 6px 13px;
      color: #333 !important;
+     /* color: rgb(204, 27, 27) !important; */
+
   }
 
   .navbar-nav .open .dropdown-menu > li > a:hover,

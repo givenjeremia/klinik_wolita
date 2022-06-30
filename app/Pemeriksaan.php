@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\softDeletes;
+
 
 class Pemeriksaan extends Model
 {
     //
+    use softDeletes;
     protected $table = 'pemeriksaan';
     public function pasien(){
         return $this->belongsTo('App\Pasien','data_pasien_id');

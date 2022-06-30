@@ -53,6 +53,8 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('karyawan', UserController::class);
     Route::resource('notapemeriksaan', NotaPemeriksaanController::class);
     Route::resource('notapersalinan', NotaPersalinanController::class);
+    Route::resource('trush', TrushController::class);
+
 
     
     Route::post('/pasien/getEditForm','PasienController@getEditForm')->name('pasien.getEditForm');
@@ -61,10 +63,15 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/pemeriksaan/getEditForm','PemeriksaanController@getEditForm')->name('pemeriksaan.getEditForm');
     
     Route::get('/addObatToCart/{id}/{keterangan}', 'NotaPemeriksaanController@addObatToCart');
+    Route::get('/restore/{type}/{id}', 'TrushController@restore');
+    Route::get('/delete/{type}/{id}', 'TrushController@delete');
+
 
 
 
     Route::resource('/', HomeController::class);
+    Route::resource('user', UserController::class);
+
     // Route::get('/', function () {
     //     return view('layouts.conquer2');
     // });

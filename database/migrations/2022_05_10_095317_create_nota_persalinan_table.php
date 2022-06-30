@@ -21,6 +21,9 @@ class CreateNotaPersalinanTable extends Migration
             $table->tinyInteger('jenis_pembayaran');
             $table->tinyInteger('status_pembayaran');
             $table->integer('lama_menginap');
+            $table->integer('total')->length(100)->nullable();;
+
+            $table->softDeletes();;
 
             $table->timestamps();
         });

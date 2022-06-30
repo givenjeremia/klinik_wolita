@@ -19,6 +19,7 @@ class CreateNotaDetailPemeriksaanTable extends Migration
             $table->integer('jumlah');
             $table->integer('harga');
             $table->longText('keterangan')->nullable();
+            $table->softDeletes();;
 
             $table->timestamps();
         });

@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\softDeletes;
+
 
 class NotaPersalinan extends Model
 {
     //
+    use softDeletes;
     protected $table = 'nota_persalinan';
 
     public function obat(){

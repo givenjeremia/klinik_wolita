@@ -7,6 +7,8 @@ Reset and overrides
 body {
   color: #222222;
   background-color: #515255 !important;
+  /* background-color: #153bae !important; */
+
 }
 /***
 Page header
@@ -19,6 +21,7 @@ Page header
 .header .navbar-nav .dropdown-toggle:hover,
 .header .navbar-nav .dropdown.open .dropdown-toggle {
   background-color: #5d5f62 !important;
+  /* background-color: #153bae !important; */
 }
 .header .navbar-nav li.dropdown .dropdown-toggle i {
   color: #b7b8bb !important;

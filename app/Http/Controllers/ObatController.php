@@ -95,9 +95,19 @@ class ObatController extends Controller
      * @param  \App\Obat  $obat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Obat $obat)
+    public function destroy($obat)
     {
         //
+        $obat = Obat::find($obat);
+        try{
+            $obat->delete();
+            return redirect()->route('obat.index')->with('status','Data Obat berhasil di hapus');
+        }catch (\PDOException $e) {
+            $msg="Data Gagal dihapus. Pastikan data child sudah hilang atau tidak berhubungan";
+
+            return redirect()->route('obat.index')-with('error',$msg);
+        }
+        
     }
 
     public function getEditForm(Request $request){

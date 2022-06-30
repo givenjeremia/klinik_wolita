@@ -24,6 +24,7 @@ class CreateDataPasienTable extends Migration
             $table->string('perkerjaan', 50)->nullable();
             $table->longText('alamat');
             $table->string('nomor_telepon');
+            $table->softDeletes();;
 
 
             $table->timestamps();

@@ -20,6 +20,7 @@ class CreateObatTable extends Migration
             $table->integer('harga');
             $table->integer('stock');
             $table->date('kadaluarsa');
+            $table->softDeletes();;
 
             $table->timestamps();
         });

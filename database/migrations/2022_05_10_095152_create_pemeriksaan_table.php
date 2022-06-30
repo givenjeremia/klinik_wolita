@@ -21,6 +21,7 @@ class CreatePemeriksaanTable extends Migration
             $table->string('terapi');
             $table->integer('kunjungan_ke');
             $table->date('tanggal_kembali');
+            $table->softDeletes();;
 
 
             $table->timestamps();

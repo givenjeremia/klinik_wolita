@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        $users = User::all();
+        $users = User::where('role','!=', 'Admin')->get();
         return view('karyawan.index' , ['karyawan' => $users]);
     }
 
@@ -27,6 +28,7 @@ class UserController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -38,6 +40,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $user = new User();
+        $user->nama = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = Hash::make($request->get('password'));
+        $user->username = $request->get('username');
+        $user->nomor_telepon = $request->get('nomor_telepon');
+        $user->tanggal_lahir = $request->get('tanggal_lahir');
+        $user->role = $request->get('roles');
+       $user->save();
     }
 
     /**
