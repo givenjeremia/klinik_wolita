@@ -47,7 +47,24 @@ Riwayat Pemeriksaan | BPM Wolita
                          @foreach ($pemeriksaan as $item)
                          <tr role="row" class="odd">
                               <td>
+                                   @if (!empty($item->pasien->nama))
+
+                                   @if ($item->pasien->nama == $item->pasien->nama)
                                    {{ $item->pasien->nama }}
+                                   {{-- @break --}}
+
+                                   @else
+                                   {{ $item->pasien->nama }}
+
+                                   @endif
+
+
+                                   @else
+                                   Data Pasien Terhapus/Kosong
+
+
+
+                                   @endif
                               </td>
                               <td>
                                    {{ date('d-m-Y', strtotime($item->tanggal_periksa)) }}

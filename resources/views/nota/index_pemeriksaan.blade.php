@@ -15,7 +15,7 @@ Nota Pemeriksaan | BPM Wolita
      </div>
      <div class="portlet-body">
           <div class="table-scrollable">
-               <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1"
+               <table class="table table-striped table-bordered table-hover dataTable no-footer" id="myTable"
                     role="grid" aria-describedby="sample_1_info">
                     <thead>
                          <tr role="row">
@@ -29,7 +29,7 @@ Nota Pemeriksaan | BPM Wolita
                                    Nama Pasien
                               </th>
                               <th style="width: 204px;">
-                                   Terapi   
+                                   Terapi
                               </th>
                               <th style="width: 204px;">
                                    Nama Obat
@@ -40,12 +40,14 @@ Nota Pemeriksaan | BPM Wolita
                               <th style="width: 204px;">
                                    Total Biaya
                               </th>
-
+                              <th style="width: 204px;">
+                                   Aksi
+                              </th>
                          </tr>
                     </thead>
                     <tbody>
                          @foreach ($notaPemeriksaan as $item)
-                         
+
                          <tr role="row" class="odd">
                               <td>
                                    {{ $item->id }}
@@ -54,80 +56,110 @@ Nota Pemeriksaan | BPM Wolita
                                    {{ $item->tanggal }}
                               </td>
                               @php
-                              //     dd($item->obat);
+                              // dd($item->obat);
                               @endphp
                               <td>
                                    @foreach ($item->pemeriksaan as $items)
-                                   
+
+                                   @if (!empty($items->pasien->nama))
+                                   a
                                    @if ($items->pasien->nama == $items->pasien->nama)
-                                   {{ $items->pasien->nama }}        
-                                       @break
+                                   {{ $items->pasien->nama }}
+                                   @break
                                    @else
-                                   {{ $items->pasien->nama }}      
-                                       
+                                   {{ $items->pasien->nama }}
+
+
+                                   @endif
+
+
+                                   @else
+                                   Data Pasien Terhapus/Kosong
+
+
+
                                    @endif
                                    @endforeach
-                                   
+
                               </td>
                               <td>
-                                   
+
                                    @foreach ($item->pemeriksaan as $items)
                                    @if ($items->terapi == $items->terapi)
-                                   {{ $items->terapi }}        
-                                       @break
+                                   {{ $items->terapi }}
+                                   @break
                                    @else
-                                   {{ $items->terapi }}      
-                                       
-                                   @endif       
+                                   {{ $items->terapi }}
+
+                                   @endif
                                    @endforeach
-                                   
+
                               </td>
                               <td>
-                                   
                                    @foreach ($item->obat as $items)
-                                   <li  class=" list-unstyled ">
+                                   <li class=" list-unstyled ">
 
-                                        {{ $items->nama_obat }}          
+                                        {{ $items->nama_obat }}
                                    </li>
                                    @endforeach
-                             
                               </td>
                               <td>
-                                   {{ $item->biaya_penanganan }}
+                                   {{ number_format($item->biaya_penanganan,2) }}
                               </td>
                               <td>
-                                   {{ $item->total }}
+                                   {{ number_format($item->total,2) }}
+                              </td>
+                              <td>
+                                   <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                                        onclick="getEditForm({{$item->id}})">
+                                        Ubah Biaya Penanganan
+                                   </a>
                               </td>
 
                          </tr>
-                             
                          @endforeach
-                     
+
                     </tbody>
                </table>
           </div>
-          <div class="row">
-               <div class="col-md-5 col-sm-12">
-                    <div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 10 of
-                         43 entries</div>
-               </div>
-               <div class="col-md-7 col-sm-12">
-                    <div class="dataTables_paginate paging_simple_numbers" id="sample_1_paginate">
-                         <ul class="pagination">
-                              <li class="paginate_button previous disabled" aria-controls="sample_1" tabindex="0"
-                                   id="sample_1_previous"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                              <li class="paginate_button active" aria-controls="sample_1" tabindex="0"><a href="#">1</a>
-                              </li>
-                              <li class="paginate_button " aria-controls="sample_1" tabindex="0"><a href="#">2</a></li>
-                              <li class="paginate_button " aria-controls="sample_1" tabindex="0"><a href="#">3</a></li>
-                              <li class="paginate_button " aria-controls="sample_1" tabindex="0"><a href="#">4</a></li>
-                              <li class="paginate_button " aria-controls="sample_1" tabindex="0"><a href="#">5</a></li>
-                              <li class="paginate_button next" aria-controls="sample_1" tabindex="0" id="sample_1_next">
-                                   <a href="#"><i class="fa fa-angle-right"></i></a></li>
-                         </ul>
-                    </div>
-               </div>
+
+     </div>
+</div>
+
+<div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
+     <div class="modal-dialog">
+          <div class="modal-content" id="modalContent">
+
           </div>
      </div>
 </div>
+@endsection
+
+
+@section('js')
+<script>
+     $('#myTable').DataTable(
+     {
+        dom: 'Bfrtip',
+        buttons: [
+            'csvHtml5',
+            'pdfHtml5',
+            'print',
+        ]
+    }
+    );
+    function getEditForm(id){
+      $.ajax({
+        type:'POST',
+        url:'{{route("notapemeriksaan.getEditForm" )}}',
+        data:{'_token':'<?php echo csrf_token() ?>',
+            'id':id
+     },
+        success: function(data){
+          $('#modalContent').html(data.msg)
+        }
+      });
+    }
+    
+</script>
 @endsection

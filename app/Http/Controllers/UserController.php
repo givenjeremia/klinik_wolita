@@ -48,7 +48,9 @@ class UserController extends Controller
         $user->nomor_telepon = $request->get('nomor_telepon');
         $user->tanggal_lahir = $request->get('tanggal_lahir');
         $user->role = $request->get('roles');
-       $user->save();
+        // $user->role = 1;
+        $user->save();
+        return redirect()->route('user.index')->with('status', 'Berhasil Tambah Karyawan' );       
     }
 
     /**
@@ -83,6 +85,18 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        $user->nama = $request->get('nama');
+        $user->email = $request->get('email');
+        $user->username = $request->get('username');
+        $user->nomor_telepon = $request->get('nomor_telepon');
+        $user->tanggal_lahir = $request->get('tanggal_lahir');
+        $user->role = $request->get('roles');
+        $user->status = $request->get('status');
+
+        // $user->role = 1;
+        $user->save();
+        return redirect()->route('user.index')->with('status', 'Berhasil Ubah Data Karyawan' );       
+
     }
 
     /**
@@ -94,5 +108,15 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function getEditForm(Request $request){
+        $id=$request->get('id');
+        $data= User::find($id);
+        // dd($data);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('karyawan.edit',compact('data'))->render()
+        ),200);
     }
 }

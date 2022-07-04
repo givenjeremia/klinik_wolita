@@ -25,7 +25,7 @@ Data Obat | BPM Wolita
                               <th style="width: 204px;">
                                    Harga
                               </th>
-                              <th  style="width: 188px;">
+                              <th  style="width: 99px;">
                                    Stock
                               </th>
                               <th style="width: 137px;">
@@ -43,7 +43,7 @@ Data Obat | BPM Wolita
                                    {{ $item->nama_obat }}
                               </td>
                               <td>
-                                   {{ $item->harga }}
+                                   {{ number_format($item->harga, 2) }}
                               </td>
                               <td>
                                    {{ $item->stock }}
@@ -55,13 +55,7 @@ Data Obat | BPM Wolita
                               <td>
                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$item->id}})">
                                         Ubah
-                                   </a>
-                                   <form method='POST' action="{{ route('obat.destroy',$item->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="submit" value="Hapus" class='btn btn-danger btn-xs' onclick="if(!confirm('are you sure to delete this record ?')) return false;">
-                                   </form>
-                                   
+                                   </a>                                
                               </td>
                          </tr>
                          @endforeach

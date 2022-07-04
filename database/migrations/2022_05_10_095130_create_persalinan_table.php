@@ -20,7 +20,6 @@ class CreatePersalinanTable extends Migration
             $table->string('nama_suami');
             $table->string('perkerjaan_suami')->nullable();
             $table->integer('persalinan_ke');
-            $table->tinyInteger('status_melahirkan');
             $table->softDeletes();;
             $table->timestamps();
         });

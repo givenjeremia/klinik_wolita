@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Pasien;
+use App\Persalinan;
+use App\Pemeriksaan;
+use App\NotaPersalinan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -109,14 +112,14 @@ class PasienController extends Controller
      * @param  \App\Pasien  $pasien
      * @return \Illuminate\Http\Response
      */
-    public function destroy($pasien)
+    public function destroy($pasien_id)
     {
-        $pasien = Pasien::find($pasien);
+        $pasien = Pasien::find($pasien_id);
         try{
             $pasien->delete();
-            return redirect()->route('pasien.index')->with('status','Data Obat berhasil di hapus');
+            return redirect()->route('pasien.index')->with('status','Data Pasien berhasil di hapus');
         }catch (\PDOException $e) {
-            $msg="Data Gagal dihapus. Pastikan data child sudah hilang atau tidak berhubungan";
+            $msg="Data Pasien Gagal  dihapus. Karena Sudah Melakukan Pemeriksaan Atau Persalinan";
 
             return redirect()->route('pasien.index')-with('error',$msg);
         }

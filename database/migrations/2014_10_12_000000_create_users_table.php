@@ -23,8 +23,7 @@ class CreateUsersTable extends Migration
             $table->date('tanggal_lahir');
             $table->string('nomor_telepon',13)->nullable();
             $table->string('role');
-
-            
+            $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
         });

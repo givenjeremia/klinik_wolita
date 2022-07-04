@@ -67,15 +67,23 @@ Nota Persalinan | BPM Wolita
                           @endphp
                               <td>
                                    @foreach ($item->persalinan as $items)
-                                   @php
-                              //     dd($items->pasien->nama); 
-                              @endphp
+                                   @if (!empty($items->pasien->nama))
+
                                    @if ($items->pasien->nama == $items->pasien->nama)
-                                   {{ $items->pasien->nama }}        
-                                       @break
+                                   {{ $items->pasien->nama }}
+                                   @break
                                    @else
-                                   {{ $items->pasien->nama }}      
-                                   
+                                   {{ $items->pasien->nama }}
+
+
+                                   @endif
+
+
+                                   @else
+                                   Data Pasien Terhapus/Kosong
+
+
+
                                    @endif
                                    @endforeach
                                    
@@ -91,7 +99,7 @@ Nota Persalinan | BPM Wolita
                              
                               </td>
                               <td>
-                                   {{ $item->biaya_penanganan }}
+                                   {{ number_format($item->biaya_penanganan,2) }}
                               </td>
                               <td>
                                    @if ($item->jenis_pembayaran == 0)
@@ -111,10 +119,12 @@ Nota Persalinan | BPM Wolita
                                    {{ $item->lama_menginap }}
                               </td>
                               <td>
-                                   {{ $item->total }}
+                                   {{ number_format($item->total,2) }}
                               </td>
                               <td>
-                                   Edit
+                                   <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$item->id}})">
+                                        Ubah
+                                   </a>  
                               </td>
 
                          </tr>
@@ -127,4 +137,40 @@ Nota Persalinan | BPM Wolita
          
      </div>
 </div>
+
+<div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content" id="modalContent">
+   
+       </div>
+     </div>
+   </div>
+@endsection
+
+@section('js')
+<script>
+    $('#myTable').DataTable(
+     {
+        dom: 'Bfrtip',
+        buttons: [
+            'csvHtml5',
+            'pdfHtml5',
+            'print',
+        ]
+    }
+    );
+    function getEditForm(id){
+      $.ajax({
+        type:'POST',
+        url:'{{route("notapersalinan.getEditForm" )}}',
+        data:{'_token':'<?php echo csrf_token() ?>',
+            'id':id
+     },
+        success: function(data){
+          $('#modalContent').html(data.msg)
+        }
+      });
+    }
+    
+</script>
 @endsection

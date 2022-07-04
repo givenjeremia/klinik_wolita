@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Obat;
+use App\Pasien;
 use App\Persalinan;
 use App\NotaPersalinan;
 use Illuminate\Http\Request;
@@ -34,6 +35,17 @@ class NotaPersalinanController extends Controller
         //
         $obats = Obat::all();
         $persalinan = Persalinan::all();
+        $pasien_trush = Pasien::onlyTrashed()->get();
+        // dd($pasien_trush);
+        // $pemeriksaan = [];
+        foreach ($persalinan as $key => $item){
+            foreach ($pasien_trush  as $keys => $items){
+                if($item->data_pasien_id == $items->id){
+                    unset($persalinan[$key]);
+                }
+                // array_push($pemeriksaan, $item);
+            }
+        }
         // dd($)
 
         return view('nota.baru_persalinan',compact('obats','persalinan'));
@@ -101,9 +113,21 @@ class NotaPersalinanController extends Controller
      * @param  \App\NotaPersalinan  $notaPersalinan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, NotaPersalinan $notaPersalinan)
+    public function update(Request $request,$id)
     {
         //
+        $notaPersalinan = NotaPersalinan::find($id);
+        $biaya_lama = $request->get('biaya_penanganan_lama');
+        $total_lama = $request->get('total_lama');
+        $harga_obat = $total_lama-$biaya_lama;
+
+        $notaPersalinan->biaya_penanganan = $request->get('biaya_penanganan');
+        $notaPersalinan->total = $harga_obat + $request->get('biaya_penanganan');
+        $notaPersalinan->jenis_pembayaran = $request->get('jenis_pembayaran');
+        $notaPersalinan->status_pembayaran = $request->get('status_pembayaran');
+        $notaPersalinan->save();
+        return redirect()->route('notapersalinan.index')->with('status', 'Berhasil Ubah Nota Persalinan');       
+
     }
 
     /**
@@ -136,4 +160,15 @@ class NotaPersalinanController extends Controller
         return redirect()->back()->with("status","Obat added to cart successfully!");
 
     }
+
+    public function getEditForm(Request $request){
+        $id=$request->get('id');
+        $data= NotaPersalinan::find($id);
+        // dd($data);
+        return response()->json(array(
+            'status'=>'oke',
+            'msg'=>view('nota.edit_notapersalinan',compact('data'))->render()
+        ),200);
+    }
+
 }

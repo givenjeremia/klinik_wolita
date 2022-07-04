@@ -52,7 +52,24 @@ Riwayat Persalinan | BPM Wolita
                          @foreach ($persalinans as $item)
                          <tr role="row" class="odd">
                               <td>
+                                   @if (!empty($item->pasien->nama))
+
+                                   @if ($item->pasien->nama == $item->pasien->nama)
                                    {{ $item->pasien->nama }}
+                                   {{-- @break --}}
+                                   @else
+                                   {{ $item->pasien->nama }}
+
+
+                                   @endif
+
+
+                                   @else
+                                   Data Pasien Terhapus/Kosong
+
+
+
+                                   @endif
                                    
                               </td>
                               <td>
@@ -89,12 +106,6 @@ Riwayat Persalinan | BPM Wolita
                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$item->id}})">
                                         Ubah
                                    </a>
-                                   <form method='POST' action="{{ route('persalinan.destroy',$item->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="submit" value="Hapus" class='btn btn-danger btn-xs' onclick="if(!confirm('are you sure to delete this record ?')) return false;">
-                                   </form>
-                                   
                               </td>
                          </tr>
                          @endforeach

@@ -27,7 +27,6 @@
                     @endforeach
                     {{-- <option value="Wanita">Wanita</option> --}}
                 </select>
-                <button type="submit">{{ $item->id }}</button>
             </div>
         </div>
         <div class="form-group">

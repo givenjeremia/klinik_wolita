@@ -62,6 +62,11 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/persalinan/getEditForm','PersalinanController@getEditForm')->name('persalinan.getEditForm');
     Route::post('/pemeriksaan/getEditForm','PemeriksaanController@getEditForm')->name('pemeriksaan.getEditForm');
     
+    Route::post('/notapemeriksaan/getEditForm','NotaPemeriksaanController@getEditForm')->name("notapemeriksaan.getEditForm");
+    Route::post('/notapersalinan/getEditForm','NotaPersalinanController@getEditForm')->name("notapersalinan.getEditForm");
+    Route::post('/user/getEditForm','UserController@getEditForm')->name("user.getEditForm");
+
+
     Route::get('/addObatToCart/{id}/{keterangan}', 'NotaPemeriksaanController@addObatToCart');
     Route::get('/restore/{type}/{id}', 'TrushController@restore');
     Route::get('/delete/{type}/{id}', 'TrushController@delete');

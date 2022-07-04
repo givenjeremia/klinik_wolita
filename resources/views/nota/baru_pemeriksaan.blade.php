@@ -31,8 +31,16 @@ Nota Pemerikasaan Baru | BPM Wolita
                                 <div class="col-md-9">
                                     <select class="form-control" name="pemeriksaan_id">
                                         <option value="">Pilih Pemeriksaan</option>
+                                        {{-- @php
+                                            dd($pemeriksaan)
+                                        @endphp --}}
                                         @foreach ($pemeriksaan as $item)
-                                            <option value="{{ $item->id }}" >{{ $item->pasien->nama }}</option>    
+                                           
+                                                
+                                            <option value="{{ $item->id }}" >{{ $item->pasien->nama }}</option> 
+                                         
+
+                                             
                                         @endforeach
                                     </select>
                                     {{-- <input type="date" name="tgl_persalinan" class="form-control" placeholder="dd/mm/yyyy" required> --}}

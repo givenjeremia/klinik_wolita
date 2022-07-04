@@ -41,6 +41,9 @@ Data Karyawan | BPM Wolita
                                    Role
                               </th>
                               <th style="width: 99px;">
+                                   Status
+                              </th>
+                              <th style="width: 99px;">
                                    Aksi
                               </th>
                          </tr>
@@ -75,8 +78,16 @@ Data Karyawan | BPM Wolita
 
                               </td>
                               <td>
-                                   {{ $item->role }}
-
+                                   @if ($item->status == 0)
+                                       Tidak Aktif
+                                   @else
+                                       Aktif
+                                   @endif
+                              </td>
+                              <td>
+                                   <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$item->id}})">
+                                        Ubah
+                                   </a>  
                               </td>
                          </tr>
                          @php
@@ -90,11 +101,34 @@ Data Karyawan | BPM Wolita
           
      </div>
 </div>
+
+
+<div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content" id="modalContent">
+   
+       </div>
+     </div>
+   </div>
 @endsection
 
 
 @section('js')
 <script>
     $('#myTable').DataTable();
+
+    function getEditForm(id){
+      $.ajax({
+        type:'POST',
+        url:'{{route("user.getEditForm" )}}',
+        data:{'_token':'<?php echo csrf_token() ?>',
+            'id':id
+     },
+        success: function(data){
+          $('#modalContent').html(data.msg)
+        }
+      });
+    }
+    
 </script>
 @endsection
